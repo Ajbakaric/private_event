@@ -1,0 +1,18 @@
+<h1><%= @event.name %></h1>
+
+<p><strong>Date:</strong> <%= @event.date.strftime('%B %d, %Y') %></p>
+<p><strong>Location:</strong> <%= @event.location %></p>
+
+<h2>Attendees:</h2>
+<% if @event.attendees.any? %>
+  <ul>
+    <% @event.attendees.each do |attendee| %>
+      <li><%= attendee.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No attendees yet.</p>
+<% end %>
+
+<%= link_to 'Back', user_path(@event.creator), class: 'btn btn-secondary' %>
+<%= button_to 'Remove Me', remove_attendee_event_path(@event, attendance_id: current_user.attendances.find_by(event_id: @event.id).id), method: :delete, class: 'button is-danger' %>
